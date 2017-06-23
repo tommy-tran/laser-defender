@@ -43,8 +43,13 @@ public class EnemySpawner : MonoBehaviour {
 			transform.position += Vector3.left * speed * Time.deltaTime;
 		}
 
-		if ((transform.position.x + 0.5f * width > xmax) || (transform.position.x - 0.5f * width < xmin)) {
-			movingRight = !movingRight;
+		if (transform.position.x + 0.5f * width > xmax) {
+			movingRight = false;
 		}
-	}
+        else if (transform.position.x - 0.5f * width < xmin)
+        {
+            movingRight = true;
+        }
+
+    }
 }
