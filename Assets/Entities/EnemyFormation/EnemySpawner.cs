@@ -20,11 +20,8 @@ public class EnemySpawner : MonoBehaviour {
 
 		xmax = rightMost.x;
 		xmin = leftMost.x;
+        SpawnEnemies();
 
-		foreach (Transform child in transform) {
-			GameObject enemy = Instantiate (enemyPrefab, child.transform.position, Quaternion.identity) as GameObject; // needs as GameObject because Instantiate creates Objects
-			enemy.transform.parent = child;
-		}
 	}
 
 	public void OnDrawGizmos() {
@@ -34,6 +31,28 @@ public class EnemySpawner : MonoBehaviour {
 	void Movement() {
 
 	}
+
+    bool AllMembersDead()
+    {
+        foreach(Transform child in transform)
+        {
+            if (child.childCount > 0)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    void SpawnEnemies()
+    {
+        foreach (Transform child in transform)
+        {
+            GameObject enemy = Instantiate(enemyPrefab, child.transform.position, Quaternion.identity) as GameObject; // needs as GameObject because Instantiate creates Objects
+            enemy.transform.parent = child;
+        }
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -49,6 +68,12 @@ public class EnemySpawner : MonoBehaviour {
         else if (transform.position.x - 0.5f * width < xmin)
         {
             movingRight = true;
+        }
+
+        if (AllMembersDead())
+        {
+            Debug.Log("Dead");
+            SpawnEnemies();
         }
 
     }
